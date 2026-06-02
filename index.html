@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historical Cover Studio</title>
+
+<!-- ElevenLabs Design System Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   ElevenLabs Design System
+   Canvas: off-white #f5f5f5  ·  Ink: #0c0a09
+   Display: EB Garamond 300  ·  Body: Inter 400
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* ── Color Tokens ── */
+  --ink: #0c0a09;
+  --primary: #292524;
+  --primary-active: #0c0a09;
+  --body: #4e4e4e;
+  --body-strong: #292524;
+  --muted: #777169;
+  --muted-soft: #a8a29e;
+  --hairline: #e7e5e4;
+  --hairline-soft: #f0efed;
+  --hairline-strong: #d6d3d1;
+  --canvas: #f5f5f5;
+  --canvas-soft: #fafafa;
+  --canvas-deep: #0c0a09;
+  --surface-card: #ffffff;
+  --surface-strong: #f0efed;
+  --on-primary: #ffffff;
+  --on-dark: #ffffff;
+  --on-dark-soft: #a8a29e;
+  --semantic-error: #dc2626;
+  --semantic-success: #16a34a;
+
+  /* ── Gradient Tokens ── */
+  --gradient-mint: #a7e5d3;
+  --gradient-peach: #f4c5a8;
+  --gradient-lavender: #c8b8e0;
+  --gradient-sky: #a8c8e8;
+  --gradient-rose: #e8b8c4;
+
+  /* ── Rounded Tokens ── */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 24px;
+  --rounded-pill: 9999px;
+
+  /* ── Spacing Tokens ── */
+  --sp-xxs: 4px;
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-base: 16px;
+  --sp-md: 20px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-xxl: 48px;
+  --sp-section: 96px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  color: var(--body);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Display (EB Garamond → Waldenburg substitute) ── */
+.display-lg {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.17;
+  letter-spacing: -0.36px;
+  color: var(--ink);
+}
+.display-md {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.13;
+  letter-spacing: -0.32px;
+  color: var(--ink);
+}
+.display-sm {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+/* ── Body Tokens ── */
+.body-strong {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  color: var(--body-strong);
+}
+.caption {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.caption-uppercase {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.button-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════
+   Layout
+   ═══════════════════════════════════ */
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--sp-lg);
+}
+
+.section {
+  padding: var(--sp-section) 0;
+}
+
+/* ── Top Navigation ── */
+.top-nav {
+  background: var(--canvas);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-lg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+.top-nav-wordmark {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+.top-nav-tag {
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--rounded-pill);
+  letter-spacing: 0.5px;
+}
+
+/* ── Hero Section ── */
+.hero {
+  position: relative;
+  padding: var(--sp-section) 0 var(--sp-xxl);
+  overflow: hidden;
+  text-align: center;
+}
+/* Gradient orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.50;
+  pointer-events: none;
+}
+.orb-mint {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, var(--gradient-mint) 0%, transparent 70%);
+  top: -120px; left: -60px;
+}
+.orb-peach {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, var(--gradient-peach) 0%, transparent 70%);
+  top: 60px; right: -80px;
+}
+.orb-lavender {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--gradient-lavender) 0%, transparent 70%);
+  top: 280px; left: 30%;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--surface-strong);
+  color: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--rounded-pill);
+  margin-bottom: var(--sp-lg);
+}
+.hero h1 {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -1.92px;
+  color: var(--ink);
+  margin-bottom: var(--sp-base);
+}
+.hero-sub {
+  font-size: 16px;
+  letter-spacing: 0.16px;
+  color: var(--body);
+  max-width: 540px;
+  margin: 0 auto var(--sp-xl);
+  line-height: 1.5;
+}
+.hero-ctas {
+  display: flex;
+  gap: var(--sp-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0;
+  padding: 10px 20px;
+  height: 40px;
+  border-radius: var(--rounded-pill);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.btn-primary:hover { background: var(--primary-active); }
+.btn-primary:active { background: var(--primary-active); }
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+}
+.btn-outline:hover { background: var(--surface-strong); }
+
+/* ── Cards ── */
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-xl);
+  padding: var(--sp-xl);
+}
+.card-xxl {
+  border-radius: var(--rounded-xxl);
+  border: 1px solid var(--hairline-soft);
+  background: var(--canvas-soft);
+}
+.card-section {
+  margin-bottom: var(--sp-xxl);
+}
+.card-section:last-child { margin-bottom: 0; }
+
+/* ── Text Inputs ── */
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-xs);
+}
+.text-input {
+  width: 100%;
+  height: 44px;
+  padding: 12px 16px;
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--rounded-md);
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.text-input:focus {
+  border: 2px solid var(--ink);
+  box-shadow: 0 0 0 3px rgba(12,10,9,0.05);
+}
+.text-input::placeholder { color: var(--muted-soft); }
+.text-input.lg {
+  height: auto;
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* ── Form Grid ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-base);
+}
+.form-grid .full { grid-column: 1 / -1; }
+.form-actions {
+  margin-top: var(--sp-lg);
+  display: flex;
+  gap: var(--sp-sm);
+  flex-wrap: wrap;
+}
+
+/* ── Status ── */
+.status {
+  display: none;
+  align-items: center;
+  gap: var(--sp-xs);
+  padding: 10px 14px;
+  border-radius: var(--rounded-md);
+  margin-top: var(--sp-base);
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+.status.loading {
+  display: flex;
+  background: var(--surface-strong);
+  color: var(--body-strong);
+}
+.status.error {
+  display: flex;
+  background: #fef2f2;
+  color: var(--semantic-error);
+  border: 1px solid #fecaca;
+}
+.status.success {
+  display: flex;
+  background: #f0fdf4;
+  color: var(--semantic-success);
+  border: 1px solid #bbf7d0;
+}
+
+/* ── Spinner ── */
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid var(--hairline-strong);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: var(--hairline);
+  margin: var(--sp-xxl) 0;
+}
+
+/* ── Text Result ── */
+.text-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+.text-result-item { }
+.text-result-item .label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-xxs);
+}
+.text-result-item .value {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  color: var(--body-strong);
+}
+.text-result-item .value.title-value {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.13;
+  letter-spacing: -0.32px;
+  color: var(--ink);
+}
+.text-result-item .value.prompt-value {
+  font-size: 14px;
+  color: var(--body);
+  background: var(--canvas-soft);
+  padding: var(--sp-base);
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--hairline);
+  max-height: 140px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+/* ── Tags ── */
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+}
+.tag {
+  background: var(--surface-strong);
+  color: var(--body-strong);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--rounded-pill);
+  letter-spacing: 0;
+}
+
+/* ── Image Grid ── */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-base);
+  margin-top: var(--sp-lg);
+}
+.image-card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+}
+.image-card img {
+  width: 100%;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  display: block;
+}
+.image-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+}
+.image-card-footer .info {
+  font-size: 13px;
+  color: var(--muted);
+}
+.image-card-footer .dl-btn {
+  background: none;
+  border: 1px solid var(--hairline-strong);
+  color: var(--body-strong);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--rounded-pill);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+.image-card-footer .dl-btn:hover {
+  background: var(--surface-strong);
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: var(--sp-xxl) 0;
+  color: var(--muted-soft);
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+/* ── 2nd Hero Orb (Fig Section) ── */
+.orb-sky {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, var(--gradient-sky) 0%, transparent 70%);
+  top: -100px; right: -40px;
+}
+.orb-rose {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, var(--gradient-rose) 0%, transparent 70%);
+  bottom: -60px; left: -100px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 40px;
+    letter-spacing: -0.96px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .image-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-sm);
+  }
+  .section {
+    padding: var(--sp-xxl) 0;
+  }
+  .hero {
+    padding: var(--sp-xxl) 0 var(--sp-xl);
+  }
+  .card {
+    padding: var(--sp-lg);
+  }
+}
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px;
+    letter-spacing: -0.32px;
+  }
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Top Navigation ═══ -->
+<nav class="top-nav">
+  <div class="top-nav-left">
+    <span class="top-nav-wordmark">Historical Cover Studio</span>
+  </div>
+</nav>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="orb orb-mint"></div>
+  <div class="orb orb-peach"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">火山引擎 · Ark API</div>
+    <h1>Historical<br>Cover Studio</h1>
+    <p class="hero-sub">
+      只需填入你的火山引擎 API 凭证与历史人物姓名，一次性生成短视频封面图文案与四张 9:16 国风竖版海报。
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="document.getElementById('config-section').scrollIntoView({behavior:'smooth'})">
+        开始使用
+      </button>
+      <button class="btn btn-outline" onclick="alert('1. 注册火山引擎 ark.cn-beijing.volces.com\n2. 创建对话模型 + Seedream 图像模型端点\n3. 获取 API Key\n4. 填入下方表单即可使用')">
+        使用指南
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Config Card ═══ -->
+<section class="section" id="config-section" style="padding-top: 0;">
+  <div class="container">
+    <div class="card">
+      <p class="caption-uppercase" style="margin-bottom: 4px;">第一步</p>
+      <h2 class="display-sm" style="margin-bottom: var(--sp-lg);">配置 API</h2>
+
+      <div class="form-grid">
+        <div class="full">
+          <label class="form-label" for="figureName">历史人物</label>
+          <input class="text-input" id="figureName" placeholder="李白 · 武则天 · 李清照 · 苏轼 ..." value="李清照">
+        </div>
+        <div class="full">
+          <label class="form-label" for="apiKey">火山引擎 API Key</label>
+          <input class="text-input" id="apiKey" type="password" placeholder="ark-xxxxxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <div>
+          <label class="form-label" for="textEndpoint">文案模型端点</label>
+          <input class="text-input" id="textEndpoint" placeholder="ep-202xxxxxxxxx-xxxxx">
+        </div>
+        <div>
+          <label class="form-label" for="imageEndpoint">生图模型端点</label>
+          <input class="text-input" id="imageEndpoint" placeholder="ep-202xxxxxxxxx-xxxxx">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="btnText" onclick="generateText()">
+          生成文案
+        </button>
+        <button class="btn btn-outline" id="btnImage" onclick="generateImages()" disabled>
+          生成四张封面
+        </button>
+      </div>
+      <div class="status" id="statusText"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Text Result ═══ -->
+<section class="section" id="cardTextResult" style="display:none; padding-top: 0;">
+  <div class="container">
+    <div class="card">
+      <p class="caption-uppercase" style="margin-bottom: 4px;">第二步</p>
+      <h2 class="display-sm" style="margin-bottom: var(--sp-lg);">封面文案</h2>
+      <div class="text-result" id="textResult"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Image Result ═══ -->
+<section class="section" id="cardImageResult" style="display:none; padding-top: 0;">
+  <div class="container">
+    <div class="card">
+      <p class="caption-uppercase" style="margin-bottom: 4px;">第三步</p>
+      <h2 class="display-sm" style="margin-bottom: var(--sp-xs);">封面图片</h2>
+      <div class="status" id="statusImage" style="margin-bottom: var(--sp-base);"></div>
+      <div class="image-grid" id="imageGrid"></div>
+      <div id="zipDownload" style="margin-top:var(--sp-lg);text-align:center;"></div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+/* ══════════════════════════════════════
+   Script — stateless API proxy
+   ══════════════════════════════════════ */
+const API_BASE = ''; // 同域部署留空，跨域填后端完整 URL
+let cachedPrompt = '';
+let cachedFigureName = '';
+let cachedTitle = '';
+let canvasCache = {};  // { index: canvasBase64 } 用于下载带文字版本
+
+// ── Generate Text ──
+async function generateText() {
+  const figureName = document.getElementById('figureName').value.trim();
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const textEndpoint = document.getElementById('textEndpoint').value.trim();
+
+  cachedFigureName = figureName;
+
+  if (!figureName || !apiKey || !textEndpoint) {
+    showStatus('statusText', 'error', '请填写上方所有必填字段。');
+    return;
+  }
+
+  const btn = document.getElementById('btnText');
+  btn.disabled = true;
+  showStatus('statusText', 'loading', spinner() + '正在调用火山引擎 API 生成文案&hellip;');
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/generate-text`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ figure_name: figureName, api_key: apiKey, endpoint_id: textEndpoint })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || 'Request failed');
+    cachedPrompt = data.data.prompt;
+    cachedTitle = data.data.title;
+    renderTextResult(figureName, data.data);
+    showStatus('statusText', 'success', '文案生成成功！点击下方「生成四张封面」继续。');
+    document.getElementById('btnImage').disabled = false;
+    document.getElementById('cardImageResult').style.display = 'none';
+    document.getElementById('cardTextResult').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) {
+    showStatus('statusText', 'error', e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderTextResult(figureName, data) {
+  document.getElementById('cardTextResult').style.display = 'block';
+  document.getElementById('textResult').innerHTML = `
+    <div class="text-result-item">
+      <div class="label">封面标题</div>
+      <div class="value title-value">${esc(data.title)}</div>
+    </div>
+    <div class="text-result-item">
+      <div class="label">人物简介</div>
+      <div class="value">${esc(data.intro)}</div>
+    </div>
+    <div class="text-result-item">
+      <div class="label">热门标签</div>
+      <div class="tags-row">${(data.tags||'').split(',').filter(Boolean).map(t => `<span class="tag">#${t.trim().replace(/^#+/, '')}</span>`).join('')}</div>
+    </div>
+    <div class="text-result-item">
+      <div class="label">绘图提示词</div>
+      <div class="value prompt-value">${esc(data.prompt)}</div>
+    </div>
+  `;
+}
+
+// ── Generate Images ──
+async function generateImages() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const imageEndpoint = document.getElementById('imageEndpoint').value.trim();
+
+  if (!apiKey || !imageEndpoint) {
+    showStatus('statusImage', 'error', '请填写 API Key 和生图模型端点。');
+    return;
+  }
+  if (!cachedPrompt) {
+    showStatus('statusImage', 'error', '请先生成封面文案。');
+    return;
+  }
+
+  const btn = document.getElementById('btnImage');
+  btn.disabled = true;
+  document.getElementById('cardImageResult').style.display = 'block';
+  showStatus('statusImage', 'loading', spinner() + '正在生成四张封面图片，预计 1&ndash;3 分钟&hellip;');
+  document.getElementById('cardImageResult').scrollIntoView({ behavior: 'smooth' });
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/generate-images`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        figure_name: cachedFigureName,
+        prompt: cachedPrompt,
+        api_key: apiKey,
+        endpoint_id: imageEndpoint,
+        n: 4
+      })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || 'Request failed');
+    renderImageGrid(data);
+    showStatus('statusImage', 'success', '成功生成 ' + data.total + ' 张封面图片！');
+  } catch (e) {
+    showStatus('statusImage', 'error', e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderImageGrid(data) {
+  const images = data.images;
+  const folder = data.folder;
+  const grid = document.getElementById('imageGrid');
+  const title = cachedTitle || cachedFigureName;
+  const figure = cachedFigureName;
+
+  // 先渲染缩略图占位
+  grid.innerHTML = images.map((img, i) => {
+    if (img.error) {
+      return `<div class="image-card"><div class="image-card-footer"><span class="info" style="color:var(--semantic-error);">第 ${img.index} 张生成失败</span></div></div>`;
+    }
+    return `
+      <div class="image-card" id="imgCard${i}">
+        <div style="aspect-ratio:9/16; background:var(--surface-strong); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:14px;">
+          ${spinner()} 叠加标题中...
+        </div>
+        <div class="image-card-footer">
+          <span class="info">第 ${img.index} 张 &middot; ${img.size_kb}&thinsp;KB</span>
+          <button class="dl-btn" id="dlBtn${i}" disabled>下载</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 异步处理每张图片：加载 → 叠加文字 → 替换显示
+  images.forEach(async (img, i) => {
+    if (img.error) return;
+    try {
+      const canvasB64 = await addTitleToImage(img.base64, title, figure);
+      canvasCache[i] = canvasB64;
+      const card = document.getElementById('imgCard' + i);
+      if (card) {
+        card.innerHTML = `
+          <img src="${canvasB64}" alt="封面 ${img.index}" loading="lazy">
+          <div class="image-card-footer">
+            <span class="info">第 ${img.index} 张 &middot; 带标题</span>
+            <button class="dl-btn" onclick="dlCanvas(${i})">下载</button>
+          </div>
+        `;
+      }
+    } catch (e) {
+      const card = document.getElementById('imgCard' + i);
+      if (card) {
+        // 失败则回退显示原图
+        card.innerHTML = `
+          <img src="data:image/jpeg;base64,${img.base64}" alt="封面 ${img.index}" loading="lazy">
+          <div class="image-card-footer">
+            <span class="info">第 ${img.index} 张 &middot; ${img.size_kb}&thinsp;KB</span>
+            <button class="dl-btn" onclick="dl('${img.base64.replace(/\\+/g,'\\\\+')}', 'cover_${img.index}')">下载</button>
+          </div>
+        `;
+      }
+    }
+  });
+
+  // 打包下载按钮
+  const zipArea = document.getElementById('zipDownload');
+  if (folder) {
+    zipArea.innerHTML = `<p style="margin-bottom:8px; font-size:13px; color:var(--muted);">提示：单个下载图片带标题 · 打包下载为原图（无标题叠加）</p>
+      <button class="btn btn-primary" onclick="dlZip('${encodeURIComponent(folder)}')">📦 打包下载全部</button>`;
+  } else {
+    zipArea.innerHTML = '';
+  }
+}
+
+function dlCanvas(idx) {
+  const b64 = canvasCache[idx];
+  if (!b64) return;
+  const a = document.createElement('a');
+  a.href = b64;
+  a.download = `cover_${idx + 1}.jpg`;
+  a.click();
+}
+
+/* ══════════════════════════════════════
+   Canvas 文字叠加 —— 把标题烧录进图片
+   上：黄字(#FFD700) + 粗黑描边
+   下：白字(#FFFFFF) + 粗黑描边
+   垂直居中
+   ══════════════════════════════════════ */
+function addTitleToImage(base64, title, figureName) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      const w = canvas.width = img.width;
+      const h = canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+
+      // 绘制原图
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h / 2;
+      const fs = Math.round(w * 0.095); // 基础字号约 137px @1440宽
+
+      // ── 第一行：封面大标题（中文）· 黄字黑边 ──
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.font = `bold ${fs}px "PingFang SC","Noto Sans SC","Microsoft YaHei","SimHei",sans-serif`;
+      ctx.lineWidth = Math.round(fs * 0.10);
+      ctx.strokeStyle = '#000000';
+      ctx.strokeText(title, cx, cy - fs * 0.5);
+      ctx.fillStyle = '#FFD700';
+      ctx.fillText(title, cx, cy - fs * 0.5);
+
+      // ── 第二行：英文名 · 白字黑边 ──
+      const eng = figureName + "'s Life";
+      const engFs = Math.round(fs * 0.55);
+      ctx.textBaseline = 'top';
+      ctx.font = `bold ${engFs}px "PingFang SC","Noto Sans SC","Microsoft YaHei","SimHei",sans-serif`;
+      ctx.lineWidth = Math.round(engFs * 0.10);
+      ctx.strokeStyle = '#000000';
+      ctx.strokeText(eng, cx, cy + fs * 0.3);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(eng, cx, cy + fs * 0.3);
+
+      resolve(canvas.toDataURL('image/jpeg', 0.92));
+    };
+    img.onerror = () => reject(new Error('图片加载失败'));
+    img.src = 'data:image/jpeg;base64,' + base64;
+  });
+}
+
+function dl(base64, filename) {
+  const a = document.createElement('a');
+  a.href = `data:image/jpeg;base64,${base64}`;
+  a.download = `${filename}.jpg`;
+  a.click();
+}
+
+function dlZip(folder) {
+  const a = document.createElement('a');
+  a.href = `${API_BASE}/api/download-zip?folder=${folder}`;
+  a.download = '';
+  a.click();
+}
+
+// ── Utilities ──
+function showStatus(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = 'status ' + type;
+  el.innerHTML = msg;
+}
+function spinner() {
+  return '<span class="spinner"></span>';
+}
+function esc(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
